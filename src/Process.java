@@ -12,7 +12,19 @@ public class Process {
     private int waitingTime;
     private int priority; // TODO what is the value if we're not working with priorities.
     private Status status;
+    private int terminationTime;
 
+    public int calcTurnaroundTime() {
+        return terminationTime - arrivalTime;
+    }
+
+    public int getTerminationTime() {
+        return terminationTime;
+    }
+
+    public void setTerminationTime(int terminationTime) {
+        this.terminationTime = terminationTime;
+    }
 
     public Status getStatus() {
         return status;
