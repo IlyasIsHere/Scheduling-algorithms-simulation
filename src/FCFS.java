@@ -20,35 +20,56 @@ public class FCFS {
                 currentTime = p.getArrivalTime();
             }
             p.setStatus(Status.READY);
-            // TODO display table (process just arrived)
+            displayTable(processes);
             sleep(1000);
             p.setStatus(Status.RUNNING);
-
-            // Waiting time of process p is the difference of when he first arrived, and now (because at the current time, process p started actually running)
-            p.setWaitingTime(currentTime - p.getArrivalTime());
-            // TODO display table (process started running)
+            displayTable(processes);
             sleep(1000);
+
+            p.setWaitingTime(currentTime - p.getArrivalTime());
             int finishingTime = currentTime + p.getBurstTime();
 
-            // Updating other processes (the ones who arrived while process p was running) and showing when each one arrives
-            for (int j = i + 1; j < n; j++) {
-                Process p2 = processes.get(j);
-                if (p2.getArrivalTime() <= finishingTime) {
-                    p2.setStatus(Status.READY);
-                    // TODO display table (process arrives)
+            for (Process nextP : processes) {
+                if (nextP.getArrivalTime() <= finishingTime && nextP.getStatus() == Status.NOT_ARRIVED_YET) {
+                    nextP.setStatus(Status.READY);
+                    displayTable(processes);
                     sleep(1000);
-                } else {
-                    break;
                 }
             }
 
             currentTime += p.getBurstTime();
             p.setStatus(Status.TERMINATED);
             p.setTerminationTime(currentTime);
-            // TODO display table (process p terminates)
-
-            // TODO finally, display the performance metrics (final results)
+            displayTable(processes);
+            sleep(1000);
         }
 
+        displayPerformanceMetrics(processes);
+    }
+
+    private void displayTable(ArrayList<Process> processes) {
+        System.out.println("\nProcess Table:");
+        System.out.println("+----+--------------+------------+-----------------+");
+        System.out.println("| ID | Arrival Time | Burst Time | Status          |");
+        System.out.println("+----+--------------+------------+-----------------+");
+        for (Process p : processes) {
+            if (p.getStatus() == Status.TERMINATED) {
+                System.out.printf("| %-2d | %-12d | %-10d | %-14s |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getStatus());
+            } else {
+                System.out.printf("| %-2d | %-12d | %-10d | %-14s |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getStatus());
+            }
+        }
+        System.out.println("+----+--------------+------------+-----------------+");
+    }
+
+    private void displayPerformanceMetrics(ArrayList<Process> processes) {
+        System.out.println("\nPerformance Metrics:");
+        System.out.println("+----+--------------+------------+--------------+----------------+");
+        System.out.println("| ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time|");
+        System.out.println("+----+--------------+------------+--------------+----------------+");
+        for (Process p : processes) {
+            System.out.printf("| %-2d | %-12d | %-10d | %-12d | %-14d |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getWaitingTime(), p.calcTurnaroundTime());
+        }
+        System.out.println("+----+--------------+------------+--------------+----------------+");
     }
 }
