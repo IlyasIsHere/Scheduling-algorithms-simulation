@@ -39,7 +39,6 @@ public class Process {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
-        this.waitingTime = 0;
         this.status = Status.NOT_ARRIVED_YET;
     }
 
@@ -55,6 +54,7 @@ public class Process {
         this.id = id;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
+        this.status = Status.NOT_ARRIVED_YET;
     }
 
     public int getId() {

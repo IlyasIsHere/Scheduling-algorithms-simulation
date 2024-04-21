@@ -25,7 +25,7 @@ public class Main {
         boolean continueLoop = true;
 
         while (continueLoop) {
-            displayTable(processes);
+            Displayer.displayTable(processes, -1);
 
             System.out.println("\nWhich scheduling algorithm do you want to choose?");
             System.out.println("1. First-Come, First-Served (FCFS) (for batch systems)");
@@ -61,7 +61,6 @@ public class Main {
             }
 
             if (continueLoop) {
-                displayPerformanceMetrics(processes);
                 System.out.println("\nDo you want to choose another scheduling algorithm? (yes/no)");
                 String answer = scanner.next();
                 if (!answer.equalsIgnoreCase("yes")) {
@@ -71,31 +70,5 @@ public class Main {
         }
 
         scanner.close();
-    }
-
-    private static void displayTable(ArrayList<Process> processes) {
-        System.out.println("\nProcess Table:");
-        System.out.println("+----+--------------+------------+-----------------+");
-        System.out.println("| ID | Arrival Time | Burst Time | Status          |");
-        System.out.println("+----+--------------+------------+-----------------+");
-        for (Process p : processes) {
-            if (p.getStatus() == Status.TERMINATED) {
-                System.out.printf("| %-2d | %-12d | %-10d | %-14s |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getStatus());
-            } else {
-                System.out.printf("| %-2d | %-12d | %-10d | %-14s |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getStatus());
-            }
-        }
-        System.out.println("+----+--------------+------------+-----------------+");
-    }
-
-    private static void displayPerformanceMetrics(ArrayList<Process> processes) {
-        System.out.println("\nPerformance Metrics:");
-        System.out.println("+----+--------------+------------+--------------+----------------+");
-        System.out.println("| ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time|");
-        System.out.println("+----+--------------+------------+--------------+----------------+");
-        for (Process p : processes) {
-            System.out.printf("| %-2d | %-12d | %-10d | %-12d | %-14d |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getWaitingTime(), p.calcTurnaroundTime());
-        }
-        System.out.println("+----+--------------+------------+--------------+----------------+");
     }
 }
