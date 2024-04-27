@@ -3,7 +3,7 @@ import java.util.Comparator;
 import static java.lang.Thread.sleep;
 
 // This class implements the First-Come-First-Served (FCFS) scheduling algorithm
-public class FCFS {
+public class FCFS extends Scheduler {
 
     /**
      * This method simulates the First-Come-First-Served (FCFS) scheduling algorithm, and displays a new table after an action happens (process terminates, process arrives, or process starts running)

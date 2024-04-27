@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 // This class implements the priority scheduling algorithm (non-preemptive). The lower the priority number, the higher the priority of the process.
-public class PriorityScheduler {
+public class PriorityScheduler extends Scheduler {
 
     public void simulate(ArrayList<Process> processes) throws InterruptedException {
 
@@ -13,7 +13,6 @@ public class PriorityScheduler {
         ArrayList<Process> ready = new ArrayList<>();
         ArrayList<Process> terminated = new ArrayList<>();
 
-        int n = processes.size();
         int currentTime = 0;
 
         // Run the loop until there is no remaining process (all terminated)
@@ -67,6 +66,11 @@ public class PriorityScheduler {
         Displayer.displayPerformanceMetrics(terminated);
     }
 
+    /**
+     *
+     * @param ready The ready processes
+     * @return The process to run now (the one with the highest priority, or if there are equal-priority processes, the first arrived one (FCFS))
+     */
     public static Process getChosen(ArrayList<Process> ready) {
         Process chosen = ready.get(0);
         for (Process p: ready) {
@@ -79,15 +83,5 @@ public class PriorityScheduler {
             }
         }
         return chosen;
-    }
-
-    public int getMinArrivalTime(ArrayList<Process> processes) {
-        int ans = processes.get(0).getArrivalTime();
-        for (Process curr : processes) {
-           if (curr.getArrivalTime() < ans) {
-               ans = curr.getArrivalTime();
-           }
-        }
-        return ans;
     }
 }
