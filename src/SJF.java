@@ -1,190 +1,88 @@
-///*import java.util.ArrayList;
-//import java.util.Comparator;
-//import java.util.Scanner;
-//import static java.lang.Thread.sleep;
-//
-//public class SJF {
-//
-//    public void simulate(ArrayList<Process> processes) throws InterruptedException {
-//
-//        // Sorting the processes based on burst time
-//        processes.sort(Comparator.comparingInt(Process::getBurstTime));
-//
-//        int n = processes.size();
-//
-//        int currentTime = 0;
-//        for (int i = 0; i < n; i++) {
-//            Process p = processes.get(i);
-//            if (currentTime < p.getArrivalTime()) {
-//                currentTime = p.getArrivalTime();
-//                p.setStatus(Status.READY);
-//                // (process just arrived)
-//                Displayer.displayTable(processes, currentTime);
-//                sleep(1000);
-//            }
-//
-//            p.setStatus(Status.RUNNING);
-//
-//            // Waiting time of process p is the difference of when it first arrived, and now (because at the current time, process p started actually running)
-//            p.setWaitingTime(currentTime - p.getArrivalTime());
-//
-//            // (process started running)
-//            Displayer.displayTable(processes, currentTime);
-//            sleep(1000);
-//            int finishingTime = currentTime + p.getBurstTime();
-//
-//            // Updating other processes (the ones who arrived while process p was running) and showing when each one arrives
-//            for (int j = i + 1; j < n; j++) {
-//                Process p2 = processes.get(j);
-//                if (p2.getArrivalTime() <= finishingTime && p2.getStatus() == Status.NOT_ARRIVED_YET) {
-//                    p2.setStatus(Status.READY);
-//                    // (process arrives)
-//
-//                    Displayer.displayTable(processes, p2.getArrivalTime());
-//                    sleep(1000);
-//                }
-//            }
-//
-//            currentTime += p.getBurstTime();
-//            p.setStatus(Status.TERMINATED);
-//            p.setTerminationTime(currentTime);
-//            // (process p terminates)
-//            Displayer.displayTable(processes, currentTime);
-//        }
-//
-//        // finally, display the performance metrics (final results) by order of ID
-//        processes.sort(Comparator.comparingInt(Process::getId));
-//        Displayer.displayPerformanceMetrics(processes);
-//
-//    }
-//}*/
-//
-//import java.util.ArrayList;
-//import java.util.Comparator;
-//
-//public class SJF {
-//
-//    public void simulate(ArrayList<Process> processes) {
-//
-//        // Sorting the processes based on arrival time and burst time
-//        processes.sort(new SJFComparator());
-//
-//        int currentTime = 0;
-//        ArrayList<Process> readyQueue = new ArrayList<>();
-//        ArrayList<Process> completedProcesses = new ArrayList<>();
-//
-//        while (!processes.isEmpty() || !readyQueue.isEmpty()) {
-//
-//            // Add newly arrived processes to the ready queue
-//            while (!processes.isEmpty() && processes.get(0).getArrivalTime() <= currentTime) {
-//                readyQueue.add(processes.remove(0));
-//            }
-//
-//            if (!readyQueue.isEmpty()) {
-//                Process shortestJob = readyQueue.get(0);
-//
-//                // Find the shortest job in the ready queue
-//                for (Process p : readyQueue) {
-//                    if (p.getBurstTime() < shortestJob.getBurstTime()) {
-//                        shortestJob = p;
-//                    }
-//                }
-//
-//                readyQueue.remove(shortestJob);
-//                shortestJob.setStatus(Status.RUNNING);
-//                shortestJob.setWaitingTime(currentTime - shortestJob.getArrivalTime());
-//
-//                // Display the current state
-//                shortestJob.setTerminationTime(currentTime);
-//                completedProcesses.add(shortestJob);
-//                Displayer.displayTable(completedProcesses, currentTime);
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                // Update the completion time and status of the shortest job
-//                currentTime += shortestJob.getBurstTime();
-//                shortestJob.setStatus(Status.TERMINATED);
-//            } else {
-//                currentTime++;
-//            }
-//        }
-//
-//        // Display the performance metrics
-//        Displayer.displayPerformanceMetrics(completedProcesses);
-//    }
-//
-//    public static class SJFComparator implements Comparator<Process> {
-//
-//        @Override
-//        public int compare(Process o1, Process o2) {
-//            if (o1.getArrivalTime() != o2.getArrivalTime()) {
-//                return o1.getArrivalTime() - o2.getArrivalTime();
-//            }
-//            return o1.getBurstTime() - o2.getBurstTime();
-//        }
-//    }
-//}
-
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
-import static java.lang.Thread.sleep;
 
-public class SJF {
+// This class implements the Shortest job first scheduling algorithm.
+public class SJF extends Scheduler {
 
     public void simulate(ArrayList<Process> processes) throws InterruptedException {
 
-        // Sorting the processes based on burst time (shortest job first)
-        processes.sort(Comparator.comparingInt(Process::getBurstTime));
+        // Keeping track of the remaining, ready, and terminated processes
+        ArrayList<Process> remaining = new ArrayList<>(processes);
+        remaining.sort(Comparator.comparingInt(Process::getArrivalTime));
+        ArrayList<Process> ready = new ArrayList<>();
+        ArrayList<Process> terminated = new ArrayList<>();
 
         int n = processes.size();
-
         int currentTime = 0;
-        for (int i = 0; i < n; i++) {
-            Process p = processes.get(i);
-            if (currentTime < p.getArrivalTime()) {
-                currentTime = p.getArrivalTime();
-                p.setStatus(Status.READY);
-                // (process just arrived)
-                Displayer.displayTable(processes, currentTime);
-                sleep(1000);
-            }
 
-            p.setStatus(Status.RUNNING);
+        // Run the loop until there is no remaining process (all terminated)
+        while (!remaining.isEmpty()) {
 
-            // Waiting time of process p is the difference of when it first arrived, and now (because at the current time, process p started actually running)
-            p.setWaitingTime(currentTime - p.getArrivalTime());
+            // Adding the newly arrived processes to the ready array
+            for (Process p: remaining) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime) {
+                    p.setStatus(Status.READY);
 
-            // (process started running)
-            Displayer.displayTable(processes, currentTime);
-            sleep(1000);
-            int finishingTime = currentTime + p.getBurstTime();
-
-            // Updating other processes (the ones who arrived while process p was running) and showing when each one arrives
-            for (int j = i + 1; j < n; j++) {
-                Process p2 = processes.get(j);
-                if (p2.getArrivalTime() <= finishingTime && p2.getStatus() == Status.NOT_ARRIVED_YET) {
-                    p2.setStatus(Status.READY);
-                    // (process arrives)
-
-                    Displayer.displayTable(processes, p2.getArrivalTime());
-                    sleep(1000);
+                    Displayer.displayTable(remaining, terminated, p.getArrivalTime());
+                    ready.add(p);
                 }
             }
 
-            currentTime += p.getBurstTime();
-            p.setStatus(Status.TERMINATED);
-            p.setTerminationTime(currentTime);
-            // (process p terminates)
-            Displayer.displayTable(processes, currentTime);
+            // If no process has arrived yet, move currentTime to minimum arrival time of the remaining processes, then continue
+            if (ready.isEmpty()) {
+                currentTime = getMinArrivalTime(remaining);
+                continue;
+            }
+
+
+            // Choosing the process to run now (the one with the shortest job)
+            Process chosen = getChosen(ready);
+
+            // Removing the picked process from the ready queue, and running it
+            ready.remove(chosen);
+            chosen.setStatus(Status.RUNNING);
+            chosen.setWaitingTime(currentTime - chosen.getArrivalTime());
+            Displayer.displayTable(remaining, terminated, currentTime);
+
+            // Check if any process arrives while the current one is running
+            for (Process p: remaining) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() < currentTime + chosen.getBurstTime()) {
+                    p.setStatus(Status.READY);
+                    ready.add(p);
+                    Displayer.displayTable(remaining, terminated, p.getArrivalTime());
+                }
+            }
+
+            // Chosen process terminates
+            currentTime += chosen.getBurstTime();
+            chosen.setStatus(Status.TERMINATED);
+            chosen.setTerminationTime(currentTime);
+            remaining.remove(chosen);
+            terminated.add(chosen);
+            Displayer.displayTable(remaining, terminated, currentTime);
         }
 
-        // finally, display the performance metrics (final results) by order of ID
-        processes.sort(Comparator.comparingInt(Process::getId));
-        Displayer.displayPerformanceMetrics(processes);
+        // Finally, display performance metrics
+        Displayer.displayPerformanceMetrics(terminated);
+    }
 
+    /**
+     *
+     * @param ready The ready processes
+     * @return The process to run now (the one with the lowest burst time)
+     */
+    public static Process getChosen(ArrayList<Process> ready) {
+        Process chosen = ready.get(0);
+        for (Process p : ready) {
+            if (p.getBurstTime() < chosen.getBurstTime()) {
+                chosen = p;
+            } else if (p.getBurstTime() == chosen.getBurstTime()) {
+                if (p.getArrivalTime() < chosen.getArrivalTime()) {
+                    chosen = p;
+                }
+            }
+        }
+        return chosen;
     }
 }

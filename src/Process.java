@@ -13,9 +13,16 @@ public class Process {
     private int priority; // TODO what is the value if we're not working with priorities.
     private Status status;
     private int terminationTime;
+    private int remainingBurstTime;
 
     public int calcTurnaroundTime() {
         return terminationTime - arrivalTime;
+    }
+
+    public void reset() {
+        remainingBurstTime = burstTime;
+        status = Status.NOT_ARRIVED_YET;
+        waitingTime = 0;
     }
 
     public int getTerminationTime() {
@@ -40,6 +47,7 @@ public class Process {
         this.burstTime = burstTime;
         this.priority = priority;
         this.status = Status.NOT_ARRIVED_YET;
+        this.remainingBurstTime = burstTime;
     }
 
     public int getWaitingTime() {
@@ -55,6 +63,15 @@ public class Process {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.status = Status.NOT_ARRIVED_YET;
+        this.remainingBurstTime = burstTime;
+    }
+
+    public int getRemainingBurstTime() {
+        return remainingBurstTime;
+    }
+
+    public void setRemainingBurstTime(int remainingBurstTime) {
+        this.remainingBurstTime = remainingBurstTime;
     }
 
     public int getId() {

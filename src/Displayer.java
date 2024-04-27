@@ -10,16 +10,17 @@ public class Displayer {
         if (currentTime >= 0) {
             System.out.println("Current Time: " + currentTime);
         }
-        System.out.println("+----+--------------+------------+-----------------+");
-        System.out.println("| ID | Arrival Time | Burst Time | Status          |");
-        System.out.println("+----+--------------+------------+-----------------+");
-        for (Process p : processes) {
-            System.out.printf("| %-2d | %-12d | %-10d | %-14s |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getStatus());
-        }
-        System.out.println("+----+--------------+------------+-----------------+");
-        sleep(1000);
+        System.out.println("+----+----------+--------------+------------+--------------+---------------------+");
+        System.out.println("| ID | Priority | Arrival Time | Burst Time | Rem. Burst   |     Status          |");
+        System.out.println("+----+----------+--------------+------------+--------------+---------------------+");
 
-        // TODO: remaining burst time
+        for (Process p : processes) {
+            System.out.printf("| %-2d | %-8d | %-12d | %-10d | %-12d | %-19s |\n",
+                    p.getId(), p.getPriority(), p.getArrivalTime(), p.getBurstTime(), p.getRemainingBurstTime(), p.getStatus());
+        }
+
+        System.out.println("+----+----------+--------------+------------+--------------+---------------------+");
+        sleep(500);
     }
 
     static void displayTable(ArrayList<Process> remaining, ArrayList<Process> terminated, int currentTime) throws InterruptedException {
@@ -28,20 +29,20 @@ public class Displayer {
         processes.addAll(terminated);
 
         // Sorting by arrival time (for displaying purposes)
-        processes.sort(Comparator.comparingInt(Process::getArrivalTime));
+        processes.sort(Comparator.comparingInt(Process::getId));
         displayTable(processes, currentTime);
     }
 
     static void displayPerformanceMetrics(ArrayList<Process> processes) {
         processes.sort(Comparator.comparingInt(Process::getId));
         System.out.println("\nPerformance Metrics:");
-        System.out.println("+----+--------------+------------+--------------+----------------+");
-        System.out.println("| ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time|");
-        System.out.println("+----+--------------+------------+--------------+----------------+");
+        System.out.println("+----+--------------+------------+--------------+-----------------+");
+        System.out.println("| ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time |");
+        System.out.println("+----+--------------+------------+--------------+-----------------+");
         for (Process p : processes) {
-            System.out.printf("| %-2d | %-12d | %-10d | %-12d | %-14d |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getWaitingTime(), p.calcTurnaroundTime());
+            System.out.printf("| %-2d | %-12d | %-10d | %-12d | %-15d |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getWaitingTime(), p.calcTurnaroundTime());
         }
-        System.out.println("+----+--------------+------------+--------------+----------------+");
+        System.out.println("+----+--------------+------------+--------------+-----------------+");
 
         // Calculate and display the mean turnaround time
         double meanTurnaroundTime = calculateMeanTurnaroundTime(processes);
