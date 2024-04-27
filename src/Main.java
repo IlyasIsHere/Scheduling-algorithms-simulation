@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Process> originalProcesses = new ArrayList<>();
+        ArrayList<Process> processes = new ArrayList<>();
 
         System.out.println("Hello!");
         System.out.print("Please enter the number of processes: ");
@@ -17,16 +17,20 @@ public class Main {
             int arrivalTime = scanner.nextInt();
             System.out.print("Enter burst time for process " + (i + 1) + ": ");
             int burstTime = scanner.nextInt();
+            System.out.print("Enter priority for process " + (i + 1) + ": ");
+            int priority = scanner.nextInt();
 
-            Process process = new Process(i + 1, arrivalTime, burstTime);
-            originalProcesses.add(process);
+            Process process = new Process(i + 1, arrivalTime, burstTime, priority);
+            processes.add(process);
         }
 
         boolean continueLoop = true;
 
         while (continueLoop) {
-            // Create a copy of the original processes ArrayList
-            ArrayList<Process> processes = new ArrayList<>(originalProcesses);
+            // Reset the statuses
+            for (Process p : processes) {
+                p.setStatus(Status.NOT_ARRIVED_YET);
+            }
 
             Displayer.displayTable(processes, -1);
 
@@ -41,26 +45,16 @@ public class Main {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    // Reset the statuses
-                    for (Process p : processes) {
-                        p.setStatus(Status.NOT_ARRIVED_YET);
-                    }
                     FCFS fcfs = new FCFS();
                     fcfs.simulate(processes);
                     break;
                 case 2:
-                    // Reset the statuses
-                    /*for (Process p : processes) {
-                        p.setStatus(Status.NOT_ARRIVED_YET);
-                    }
-                    SJF sjf = new SJF();
-                    sjf.simulate(processes);
-                    break;*/
-                    SJF sjf = new SJF();
-                    sjf.simulate(new ArrayList<>(processes));
+//                    SJF sjf = new SJF();
+//                    sjf.simulate(new ArrayList<>(processes));
                     break;
                 case 3:
-                    // Implement Priority Scheduling
+                    PriorityScheduler priorityScheduler = new PriorityScheduler();
+                    priorityScheduler.simulate(processes);
                     break;
                 case 4:
                     // Implement Round Robin

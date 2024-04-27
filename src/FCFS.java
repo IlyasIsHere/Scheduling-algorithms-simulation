@@ -5,6 +5,11 @@ import static java.lang.Thread.sleep;
 // This class implements the First-Come-First-Served (FCFS) scheduling algorithm
 public class FCFS {
 
+    /**
+     * This method simulates the First-Come-First-Served (FCFS) scheduling algorithm, and displays a new table after an action happens (process terminates, process arrives, or process starts running)
+     * @param processes
+     * @throws InterruptedException
+     */
     public void simulate(ArrayList<Process> processes) throws InterruptedException {
 
         // Sorting the processes based on first arrival time
@@ -20,7 +25,6 @@ public class FCFS {
                 p.setStatus(Status.READY);
                 // (process just arrived)
                 Displayer.displayTable(processes, currentTime);
-                sleep(1000);
             }
 
             p.setStatus(Status.RUNNING);
@@ -30,7 +34,6 @@ public class FCFS {
 
             // (process started running)
             Displayer.displayTable(processes, currentTime);
-            sleep(1000);
             int finishingTime = currentTime + p.getBurstTime();
 
             // Updating other processes (the ones who arrived while process p was running) and showing when each one arrives
@@ -41,7 +44,6 @@ public class FCFS {
                     // (process arrives)
 
                     Displayer.displayTable(processes, p2.getArrivalTime());
-                    sleep(1000);
                 }
             }
 
@@ -53,7 +55,6 @@ public class FCFS {
         }
 
         // finally, display the performance metrics (final results) by order of ID
-        processes.sort(Comparator.comparingInt(Process::getId));
         Displayer.displayPerformanceMetrics(processes);
 
     }
