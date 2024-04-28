@@ -10,7 +10,7 @@ public class Process {
     private int arrivalTime;
     private int burstTime;
     private int waitingTime;
-    private int priority; // TODO what is the value if we're not working with priorities.
+    private int priority;
     private Status status;
     private int terminationTime;
     private int remainingBurstTime;
@@ -42,6 +42,10 @@ public class Process {
     }
 
     public Process(int id, int arrivalTime, int burstTime, int priority) {
+        if (id < 0) throw new IllegalArgumentException("ID must be a positive integer");
+        if (arrivalTime < 0) throw new IllegalArgumentException("Arrival time must be a positive integer");
+        if (burstTime < 0) throw new IllegalArgumentException("Burst time must be a positive integer");
+
         this.id = id;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
@@ -56,14 +60,6 @@ public class Process {
 
     public void setWaitingTime(int waitingTime) {
         this.waitingTime = waitingTime;
-    }
-
-    public Process(int id, int arrivalTime, int burstTime) {
-        this.id = id;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.status = Status.NOT_ARRIVED_YET;
-        this.remainingBurstTime = burstTime;
     }
 
     public int getRemainingBurstTime() {

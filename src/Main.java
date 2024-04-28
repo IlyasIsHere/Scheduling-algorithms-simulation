@@ -186,6 +186,8 @@ public class Main {
                 int burstTime = Integer.parseInt(parts[2].trim());
                 int priority = Integer.parseInt(parts[3].trim());
                 processes.add(new Process(id, arrivalTime, burstTime, priority));
+            } catch (IllegalArgumentException e) {
+                System.err.println(e.getMessage());
             } catch (Exception e) {
                 System.err.println("Invalid input format. Please try again.");
             }
