@@ -42,9 +42,10 @@ public class Process {
     }
 
     public Process(int id, int arrivalTime, int burstTime, int priority) {
-        if (id < 0) throw new IllegalArgumentException("ID must be a positive integer");
-        if (arrivalTime < 0) throw new IllegalArgumentException("Arrival time must be a positive integer");
-        if (burstTime < 0) throw new IllegalArgumentException("Burst time must be a positive integer");
+        if (id < 0) throw new IllegalArgumentException("ID must be a non-negative integer");
+        if (arrivalTime < 0) throw new IllegalArgumentException("Arrival time must be a non-negative integer");
+        if (burstTime <= 0) throw new IllegalArgumentException("Burst time must be a positive integer");
+        if (priority < 0) throw new IllegalArgumentException("The priority must be a non-negative integer");
 
         this.id = id;
         this.arrivalTime = arrivalTime;

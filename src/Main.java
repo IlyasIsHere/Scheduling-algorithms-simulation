@@ -56,6 +56,7 @@ public class Main {
                     scanner.nextLine();
                     continue loopChooseAlgorithm;
                 }
+                int quantum = 0;
                 switch (choice) {
                     case 1:
                         FCFS fcfs = new FCFS();
@@ -71,13 +72,20 @@ public class Main {
                         break;
                     case 4:
                         System.out.println("\nEnter the quantum value: ");
-                        int quantum = scanner.nextInt();  // Read the quantum from the user
+                        quantum = scanner.nextInt();  // Read the quantum from the user
 
                         RoundRobin rr = new RoundRobin(quantum);
                         rr.simulate(processes);
                         break;
                     case 5:
-                        // Implement Priority Scheduling + RR
+                        System.out.println("\nEnter the quantum value: ");
+                        quantum = scanner.nextInt();
+
+                        System.out.println("\nEnter the number of priority levels: ");
+                        int numPriorityLevels = scanner.nextInt();
+
+                        PriorityRoundRobin prr = new PriorityRoundRobin(quantum, numPriorityLevels);
+                        prr.simulate(processes);
                         break;
                     case 6:
                         continueLoop = false;
@@ -133,7 +141,7 @@ public class Main {
      * <p>
      * Each line should be of this form: process_id,arrivalTime,burstTime,priority
      * <p>
-     * If the user doesn't want to work with priorities, he may simply put -1 or any random number in that field.
+     * If the user doesn't want to work with priorities, he may simply put 0 or any random positive number in that field.
      *
      * @return An ArrayList of processes that were read from the file
      */

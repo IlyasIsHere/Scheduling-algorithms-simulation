@@ -16,7 +16,7 @@ public class RandomProcessesGenerator {
         for (int i = 0; i < numProcesses; i++) {
             int burstDuration = rand.nextInt(MAX_BURST_DURATION) + 1;
             int arrivalTime = rand.nextInt(MAX_ARRIVAL_TIME);
-            int priority = rand.nextInt(MAX_PRIORITY) + 1;
+            int priority = rand.nextInt(MAX_PRIORITY);
             Process process = new Process(i, arrivalTime, burstDuration, priority);
             processes.add(process);
         }
