@@ -1,4 +1,4 @@
-import javax.swing.JFileChooser;
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Main {
+
+    private static JFileChooser fileChooser = new JFileChooser();
 
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
@@ -139,7 +141,6 @@ public class Main {
         System.out.println("Please select your file that contains the processes. Each line should represent a process, and each process should be comma-separated values as follows: \nid,arrivalTime,burstTime,priority");
         ArrayList<Process> processes = new ArrayList<>();
 
-        JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
