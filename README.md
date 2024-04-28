@@ -6,7 +6,7 @@ This project simulates various process scheduling algorithms to study their beha
 ## Components
 - **Main.java**: Entry point that orchestrates the simulation, utilizing various schedulers.
 - **Process.java**: Represents a process with attributes necessary for scheduling.
-- **Scheduler.java**: Interface defining essential scheduler operations.
+- **Scheduler.java**: Abstract class defining essential scheduler operations.
 - **Displayer.java**: Handles the output of scheduling results.
 - **RandomProcessesGenerator.java**: Generates a set of random processes to be used in simulations.
 - **FCFS.java**: Implements the First-Come, First-Served scheduling algorithm.
