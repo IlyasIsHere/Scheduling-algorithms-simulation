@@ -44,9 +44,11 @@ public class Displayer {
         }
         System.out.println("+----+--------------+------------+--------------+-----------------+");
 
-        // Calculate and display the mean turnaround time
+        // Calculate and display the mean turnaround time, and mean waiting time
         double meanTurnaroundTime = calculateMeanTurnaroundTime(processes);
-        System.out.println("\nMean Turnaround Time: " + meanTurnaroundTime);
+        double meanWaitingTime = calculateMeanWaitingTime(processes);
+        System.out.println("\nAverage Turnaround Time: " + meanTurnaroundTime);
+        System.out.println("Average Waiting Time: " + meanWaitingTime);
     }
 
     public static double calculateMeanTurnaroundTime(ArrayList<Process> processes) {
@@ -55,6 +57,14 @@ public class Displayer {
             totalTurnaroundTime += p.calcTurnaroundTime();
         }
         return (double) totalTurnaroundTime / processes.size();
+    }
+
+    public static double calculateMeanWaitingTime(ArrayList<Process> processes) {
+        int totalWaitingTime = 0;
+        for (Process p : processes) {
+            totalWaitingTime += p.getWaitingTime();
+        }
+        return (double) totalWaitingTime / processes.size();
     }
 }
 
