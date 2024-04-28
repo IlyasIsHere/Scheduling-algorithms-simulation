@@ -15,6 +15,8 @@ public class PriorityScheduler extends Scheduler {
 
         int currentTime = 0;
 
+        Displayer.displayTable(processes, currentTime);
+
         // Run the loop until there is no remaining process (all terminated)
         while (!remaining.isEmpty()) {
 
@@ -49,6 +51,8 @@ public class PriorityScheduler extends Scheduler {
                 if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() < currentTime + chosen.getBurstTime()) {
                     p.setStatus(Status.READY);
                     ready.add(p);
+
+                    chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - (p.getArrivalTime() - currentTime));
                     Displayer.displayTable(remaining, terminated, p.getArrivalTime());
                 }
             }
@@ -56,6 +60,7 @@ public class PriorityScheduler extends Scheduler {
             // Chosen process terminates
             currentTime += chosen.getBurstTime();
             chosen.setStatus(Status.TERMINATED);
+            chosen.setRemainingBurstTime(0);
             chosen.setTerminationTime(currentTime);
             remaining.remove(chosen);
             terminated.add(chosen);

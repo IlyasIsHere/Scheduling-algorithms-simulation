@@ -18,13 +18,15 @@ public class FCFS extends Scheduler {
         int n = processes.size();
 
         int currentTime = 0;
+
+        Displayer.displayTable(processes, currentTime);
         for (int i = 0; i < n; i++) {
             Process p = processes.get(i);
             if (currentTime < p.getArrivalTime()) {
                 currentTime = p.getArrivalTime();
                 p.setStatus(Status.READY);
                 // (process just arrived)
-                Displayer.displayTable(processes, currentTime);
+                Displayer.updateTable(processes, currentTime);
             }
 
             p.setStatus(Status.RUNNING);
@@ -33,25 +35,27 @@ public class FCFS extends Scheduler {
             p.setWaitingTime(currentTime - p.getArrivalTime());
 
             // (process started running)
-            Displayer.displayTable(processes, currentTime);
+            Displayer.updateTable(processes, currentTime);
             int finishingTime = currentTime + p.getBurstTime();
 
             // Updating other processes (the ones who arrived while process p was running) and showing when each one arrives
             for (int j = i + 1; j < n; j++) {
                 Process p2 = processes.get(j);
                 if (p2.getArrivalTime() <= finishingTime && p2.getStatus() == Status.NOT_ARRIVED_YET) {
-                    p2.setStatus(Status.READY);
                     // (process arrives)
+                    p2.setStatus(Status.READY);
 
-                    Displayer.displayTable(processes, p2.getArrivalTime());
+                    p.setRemainingBurstTime(p.getRemainingBurstTime() - (p2.getArrivalTime() - currentTime));
+                    Displayer.updateTable(processes, p2.getArrivalTime());
                 }
             }
 
             currentTime += p.getBurstTime();
             p.setStatus(Status.TERMINATED);
+            p.setRemainingBurstTime(0);
             p.setTerminationTime(currentTime);
             // (process p terminates)
-            Displayer.displayTable(processes, currentTime);
+            Displayer.updateTable(processes, currentTime);
         }
 
         // finally, display the performance metrics (final results) by order of ID

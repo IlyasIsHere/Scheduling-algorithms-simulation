@@ -5,10 +5,19 @@ import static java.lang.Thread.sleep;
 
 public class Displayer {
 
+    static void updateTable(ArrayList<Process> processes, int currentTime) throws InterruptedException {
+        String goback = "\033[F".repeat(processes.size() + 7);
+        System.out.print(goback);
+
+        displayTable(processes, currentTime);
+    }
+
     static void displayTable(ArrayList<Process> processes, int currentTime) throws InterruptedException {
         System.out.println("\nProcess Table:");
         if (currentTime >= 0) {
             System.out.println("Current Time: " + currentTime);
+        } else {
+            System.out.println("Current Time: Not yet started");
         }
         System.out.println("+----+----------+--------------+------------+--------------+---------------------+");
         System.out.println("| ID | Priority | Arrival Time | Burst Time | Rem. Burst   |     Status          |");
@@ -20,7 +29,7 @@ public class Displayer {
         }
 
         System.out.println("+----+----------+--------------+------------+--------------+---------------------+");
-        sleep(500);
+        sleep(1000);
     }
 
     static void displayTable(ArrayList<Process> remaining, ArrayList<Process> terminated, int currentTime) throws InterruptedException {
@@ -30,7 +39,7 @@ public class Displayer {
 
         // Sorting by arrival time (for displaying purposes)
         processes.sort(Comparator.comparingInt(Process::getId));
-        displayTable(processes, currentTime);
+        updateTable(processes, currentTime);
     }
 
     static void displayPerformanceMetrics(ArrayList<Process> processes) {

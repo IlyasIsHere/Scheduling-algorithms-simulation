@@ -31,6 +31,7 @@ public class RoundRobin extends Scheduler {
 
         int currentTime = 0;
 
+        Displayer.displayTable(processes, currentTime);
         // Run the loop until there is no remaining process (all terminated)
         while (!remaining.isEmpty()) {
 
