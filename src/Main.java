@@ -29,6 +29,14 @@ public class Main {
                 continue;
             }
 
+            // Getting the highest priority (we need it in PriorityRoundRobin)
+            int highestPriority = processes.get(0).getPriority();
+            for (Process p: processes) {
+                if (p.getPriority() > highestPriority) {
+                    highestPriority = p.getPriority();
+                }
+            }
+
             boolean continueLoop = true;
 
             loopChooseAlgorithm:
@@ -81,10 +89,7 @@ public class Main {
                         System.out.println("\nEnter the quantum value: ");
                         quantum = scanner.nextInt();
 
-                        System.out.println("\nEnter the number of priority levels: ");
-                        int numPriorityLevels = scanner.nextInt();
-
-                        PriorityRoundRobin prr = new PriorityRoundRobin(quantum, numPriorityLevels);
+                        PriorityRoundRobin prr = new PriorityRoundRobin(quantum, highestPriority + 1);
                         prr.simulate(processes);
                         break;
                     case 6:
