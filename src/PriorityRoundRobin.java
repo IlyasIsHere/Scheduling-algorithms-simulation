@@ -50,11 +50,13 @@ public class PriorityRoundRobin extends Scheduler {
             Process chosen = queues.get(highestPriorityQueue).poll();
             chosen.setStatus(Status.RUNNING);
 
+            int runningTime = Math.min(chosen.getRemainingBurstTime(), quantum);
+
             Displayer.displayTable(remaining, terminated, currentTime);
 
             // Check if any process arrives while the current one is running
             for (Process p : remaining) {
-                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime + quantum) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime + runningTime) {
                     p.setStatus(Status.READY);
                     int priority = p.getPriority();
                     queues.get(priority).offer(p);
@@ -63,9 +65,8 @@ public class PriorityRoundRobin extends Scheduler {
             }
 
             // Run the chosen process for a quantum of time
-            int addedTime = Math.min(chosen.getRemainingBurstTime(), quantum);
-            currentTime += addedTime;
-            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - addedTime);
+            currentTime += runningTime;
+            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - runningTime);
 
             if (chosen.getRemainingBurstTime() == 0) { // If it terminates
                 chosen.setStatus(Status.TERMINATED);

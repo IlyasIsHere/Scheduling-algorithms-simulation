@@ -59,9 +59,11 @@ public class RoundRobin extends Scheduler {
 
             Displayer.displayTable(remaining, terminated, currentTime);
 
+            int runningTime = min(chosen.getRemainingBurstTime(), quantum);
+
             // Check if any process arrives while the current one is running
             for (Process p : remaining) {
-                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime + quantum) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime + runningTime) {
                     p.setStatus(Status.READY);
                     ready.add(p);
                     Displayer.displayTable(remaining, terminated, p.getArrivalTime());
@@ -69,9 +71,8 @@ public class RoundRobin extends Scheduler {
             }
 
             // Advance time by the minimum between the remaining burst time, and the quantum
-            int addedTime = min(chosen.getRemainingBurstTime(), quantum);
-            currentTime += addedTime;
-            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - addedTime);
+            currentTime += runningTime;
+            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - runningTime);
 
             if (chosen.getRemainingBurstTime() == 0) { // If it terminates
                 chosen.setStatus(Status.TERMINATED);
