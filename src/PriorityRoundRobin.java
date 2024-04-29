@@ -48,25 +48,34 @@ public class PriorityRoundRobin extends Scheduler {
 
             // Choose the process to run now (the front of the highest priority queue)
             Process chosen = queues.get(highestPriorityQueue).poll();
+
+            // Run the chosen process for a quantum of time
             chosen.setStatus(Status.RUNNING);
 
+            // The running time is the minimum between the remaining burst time, and the quantum
             int runningTime = Math.min(chosen.getRemainingBurstTime(), quantum);
+            int startingTime = currentTime;
+            int endingTime = startingTime + runningTime;
 
             Displayer.displayTable(remaining, terminated, currentTime);
 
             // Check if any process arrives while the current one is running
             for (Process p : remaining) {
-                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime + runningTime) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= endingTime) {
                     p.setStatus(Status.READY);
                     int priority = p.getPriority();
                     queues.get(priority).offer(p);
+
+                    chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - (p.getArrivalTime() - currentTime));
+                    currentTime = p.getArrivalTime();
+
                     Displayer.displayTable(remaining, terminated, p.getArrivalTime());
                 }
             }
 
-            // Run the chosen process for a quantum of time
-            currentTime += runningTime;
-            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - runningTime);
+            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - (endingTime - currentTime));
+
+            currentTime = endingTime;
 
             if (chosen.getRemainingBurstTime() == 0) { // If it terminates
                 chosen.setStatus(Status.TERMINATED);
@@ -74,13 +83,14 @@ public class PriorityRoundRobin extends Scheduler {
                 chosen.setWaitingTime(chosen.calcTurnaroundTime() - chosen.getBurstTime());
                 remaining.remove(chosen);
                 terminated.add(chosen);
-                Displayer.displayTable(remaining, terminated, currentTime);
             } else {
                 // Add it back to the rear of its priority queue
                 int priority = chosen.getPriority();
                 queues.get(priority).offer(chosen);
                 chosen.setStatus(Status.READY);
             }
+            Displayer.displayTable(remaining, terminated, currentTime);
+
         }
 
         // Finally, display performance metrics

@@ -36,21 +36,23 @@ public class FCFS extends Scheduler {
 
             // (process started running)
             Displayer.updateTable(processes, currentTime);
-            int finishingTime = currentTime + p.getBurstTime();
+            int startingTime = currentTime;
 
             // Updating other processes (the ones who arrived while process p was running) and showing when each one arrives
             for (int j = i + 1; j < n; j++) {
                 Process p2 = processes.get(j);
-                if (p2.getArrivalTime() <= finishingTime && p2.getStatus() == Status.NOT_ARRIVED_YET) {
+                if (p2.getArrivalTime() <= startingTime + p.getBurstTime() && p2.getStatus() == Status.NOT_ARRIVED_YET) {
                     // (process arrives)
                     p2.setStatus(Status.READY);
 
                     p.setRemainingBurstTime(p.getRemainingBurstTime() - (p2.getArrivalTime() - currentTime));
+                    currentTime = p2.getArrivalTime();
+
                     Displayer.updateTable(processes, p2.getArrivalTime());
                 }
             }
 
-            currentTime += p.getBurstTime();
+            currentTime += p.getRemainingBurstTime();
             p.setStatus(Status.TERMINATED);
             p.setRemainingBurstTime(0);
             p.setTerminationTime(currentTime);

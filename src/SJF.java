@@ -47,19 +47,23 @@ public class SJF extends Scheduler {
             chosen.setWaitingTime(currentTime - chosen.getArrivalTime());
             Displayer.displayTable(remaining, terminated, currentTime);
 
+            int startingTime = currentTime;
+
             // Check if any process arrives while the current one is running
             for (Process p: remaining) {
-                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() < currentTime + chosen.getBurstTime()) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() < startingTime + chosen.getBurstTime()) {
                     p.setStatus(Status.READY);
                     ready.add(p);
 
                     chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - (p.getArrivalTime() - currentTime));
+                    currentTime = p.getArrivalTime();
+
                     Displayer.displayTable(remaining, terminated, p.getArrivalTime());
                 }
             }
 
             // Chosen process terminates
-            currentTime += chosen.getBurstTime();
+            currentTime += chosen.getRemainingBurstTime();
             chosen.setStatus(Status.TERMINATED);
             chosen.setRemainingBurstTime(0);
             chosen.setTerminationTime(currentTime);

@@ -59,20 +59,27 @@ public class RoundRobin extends Scheduler {
 
             Displayer.displayTable(remaining, terminated, currentTime);
 
+            // The running time is the minimum between the remaining burst time, and the quantum
             int runningTime = min(chosen.getRemainingBurstTime(), quantum);
+            int startingTime = currentTime;
+            int endingTime = startingTime + runningTime;
 
             // Check if any process arrives while the current one is running
             for (Process p : remaining) {
-                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= currentTime + runningTime) {
+                if (p.getStatus() == Status.NOT_ARRIVED_YET && p.getArrivalTime() <= endingTime) {
                     p.setStatus(Status.READY);
                     ready.add(p);
+
+                    chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - (p.getArrivalTime() - currentTime));
+                    currentTime = p.getArrivalTime();
+
                     Displayer.displayTable(remaining, terminated, p.getArrivalTime());
                 }
             }
 
-            // Advance time by the minimum between the remaining burst time, and the quantum
-            currentTime += runningTime;
-            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - runningTime);
+
+            chosen.setRemainingBurstTime(chosen.getRemainingBurstTime() - (endingTime - currentTime));
+            currentTime = endingTime;
 
             if (chosen.getRemainingBurstTime() == 0) { // If it terminates
                 chosen.setStatus(Status.TERMINATED);
@@ -83,12 +90,12 @@ public class RoundRobin extends Scheduler {
 
                 remaining.remove(chosen);
                 terminated.add(chosen);
-                Displayer.displayTable(remaining, terminated, currentTime);
             } else {
                 // Add it back to the rear of the queue
                 ready.add(chosen);
                 chosen.setStatus(Status.READY);
             }
+            Displayer.displayTable(remaining, terminated, currentTime);
         }
 
         // Finally, display performance metrics
