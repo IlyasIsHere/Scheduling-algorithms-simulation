@@ -49,19 +49,21 @@ public class Displayer {
     static void displayPerformanceMetrics(ArrayList<Process> processes) {
         processes.sort(Comparator.comparingInt(Process::getId));
         System.out.println(Main.ANSI_CYAN + "\nPerformance Metrics:" + Main.ANSI_RESET);
-        System.out.println("+----+--------------+------------+--------------+-----------------+");
-        System.out.println(Main.ANSI_YELLOW + "| %s | Arrival Time | Burst Time | Waiting Time | Turnaround Time |" + Main.ANSI_RESET);
-        System.out.println("+----+--------------+------------+--------------+-----------------+");
+        System.out.println("+----+--------------+------------+--------------+-----------------+---------------+------------------+");
+        System.out.println(Main.ANSI_YELLOW + "| ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time | Starting Time | Termination Time |" + Main.ANSI_RESET);
+        System.out.println("+----+--------------+------------+--------------+-----------------+---------------+------------------+");
         for (Process p : processes) {
-            System.out.printf("| %-2d | %-12d | %-10d | %-12d | %-15d |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getWaitingTime(), p.calcTurnaroundTime());
+            System.out.printf("| %-2d | %-12d | %-10d | %-12d | %-15d | %-13d | %-16d |\n", p.getId(), p.getArrivalTime(), p.getBurstTime(), p.getWaitingTime(), p.calcTurnaroundTime(), p.getStartingTime(), p.getTerminationTime());
         }
-        System.out.println("+----+--------------+------------+--------------+-----------------+");
+        System.out.println("+----+--------------+------------+--------------+-----------------+---------------+------------------+");
 
         // Calculate and display the mean turnaround time, and mean waiting time
         double meanTurnaroundTime = calculateMeanTurnaroundTime(processes);
         double meanWaitingTime = calculateMeanWaitingTime(processes);
+        double cpuUsage = calculateCpuUsage(processes);
         System.out.println(Main.ANSI_YELLOW + "\nAverage Turnaround Time: " + meanTurnaroundTime + Main.ANSI_RESET);
         System.out.println(Main.ANSI_YELLOW + "Average Waiting Time: " + meanWaitingTime + Main.ANSI_RESET);
+        System.out.printf(Main.ANSI_YELLOW + "CPU Usage: %.2f %%" + Main.ANSI_RESET, cpuUsage);
     }
 
     public static double calculateMeanTurnaroundTime(ArrayList<Process> processes) {
@@ -85,9 +87,25 @@ public class Displayer {
      * @param processes The ArrayList of processes, with their startingTime and terminationTime set.
      * @return CPU usage
      */
-//    public static double calculateCpuUsage(ArrayList<Process> processes) {
-//
-//    }
+    public static double calculateCpuUsage(ArrayList<Process> processes) {
+        int active_cpu_time = 0;
+        int first_starting_time = processes.get(0).getStartingTime();
+        int last_termination_time = processes.get(0).getTerminationTime();
+
+        for (Process p : processes) {
+            active_cpu_time += p.getBurstTime();
+            if (p.getStartingTime() < first_starting_time) {
+                first_starting_time = p.getStartingTime();
+            }
+            if (p.getTerminationTime() > last_termination_time) {
+                last_termination_time = p.getTerminationTime();
+            }
+        }
+
+        int total_time = last_termination_time - first_starting_time; // The total time is the duration between the first time a process started executing, and the last time a process terminated.
+
+        return ((double) active_cpu_time / total_time) * 100;
+    }
 }
 
 
