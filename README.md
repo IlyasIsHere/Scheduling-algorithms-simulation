@@ -327,14 +327,14 @@ To compile and run the simulation:
 1. Ensure you have Java installed on your system.
 2. Navigate to the directory containing the source files.
 3. Compile the Java files using the following command:
-   **method1**:
+   - **method1**:
    Navigate to the src directory and run the following commands:
    javac main.java
    java Main
-   **method2**:
+   - **method2**:
    Navigate to the directory where the Scheduling-algorithms-simulation.jar file is located, then run the following       
   command:
-  ## java -jar Scheduling-algorithms-simulation.jar
+  -**java -jar Scheduling-algorithms-simulation.jar**
 5. Run the simulation by executing the `Main` class.
 6. Follow the on-screen options to choose different scheduling algorithms or test scenarios. If you want to test the algorithms with specific process sets, you can use the provided `file.txt` examples or create new ones and upload them to test their behavior.
 
