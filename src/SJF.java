@@ -44,6 +44,7 @@ public class SJF extends Scheduler {
             // Removing the picked process from the ready queue, and running it
             ready.remove(chosen);
             chosen.setStatus(Status.RUNNING);
+            chosen.setStartingTime(currentTime);
             chosen.setWaitingTime(currentTime - chosen.getArrivalTime());
             Displayer.displayTable(remaining, terminated, currentTime);
 

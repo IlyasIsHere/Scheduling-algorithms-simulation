@@ -51,6 +51,10 @@ public class PriorityRoundRobin extends Scheduler {
 
             // Run the chosen process for a quantum of time
             chosen.setStatus(Status.RUNNING);
+            if (chosen.getStartingTime() == -1) {
+                chosen.setStartingTime(currentTime);
+            }
+
 
             // The running time is the minimum between the remaining burst time, and the quantum
             int runningTime = Math.min(chosen.getRemainingBurstTime(), quantum);

@@ -13,6 +13,7 @@ public class Process {
     private int priority;
     private Status status;
     private int terminationTime;
+    private int startingTime;
     private int remainingBurstTime;
 
     public int calcTurnaroundTime() {
@@ -53,6 +54,7 @@ public class Process {
         this.priority = priority;
         this.status = Status.NOT_ARRIVED_YET;
         this.remainingBurstTime = burstTime;
+        this.startingTime = -1;
     }
 
     public int getWaitingTime() {
@@ -101,5 +103,13 @@ public class Process {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public int getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(int startingTime) {
+        this.startingTime = startingTime;
     }
 }
