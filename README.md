@@ -328,4 +328,5 @@ To compile and run the simulation:
 3. Compile the Java files using the following command.
 4. Run the simulation by executing the `Main` class.
 5. Follow the on-screen options to choose different scheduling algorithms or test scenarios. If you want to test the algorithms with specific process sets, you can use the provided `file.txt` examples or create new ones and upload them to test their behavior.
-
+## Follow the steps to choose how to input processes:
+![Follow the steps to choose how to input processes Example](main.PNG "Follow the steps to choose how to input processes")
