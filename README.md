@@ -45,15 +45,15 @@ To use the Process Scheduling Simulator, follow these steps:
 5. Choose a scheduling algorithm to simulate.
 6. View the simulation results and performance metrics.
 ## Follow the steps to choose how to input processes:
-![Follow the steps to choose how to input processes Example](main.PNG "Follow the steps to choose how to input processes")
+![Follow the steps to choose how to input processes Example](images/main.PNG "Follow the steps to choose how to input processes")
 ## Enter processes manually:
-![Enter processes manually Example](fill_process.PNG "Enter processes manually")
+![Enter processes manually Example](images/fill_process.PNG "Enter processes manually")
 
 ##  Read processes from a file:
-![Read processes from a file Example](file.PNG "Read processes from a file")
+![Read processes from a file Example](images/file.PNG "Read processes from a file")
 
 ## Generate processes randomly:
-![Generate processes randomly Example](random.PNG "Generate processes randomly")
+![Generate processes randomly Example](images/random.PNG "Generate processes randomly")
 
 ## Supported Algorithms
 
@@ -132,7 +132,7 @@ Display the performance metrics such as turnaround time, waiting time, and CPU u
 The FCFS scheduling algorithm implemented in the provided code ensures that processes are executed in the order they arrive. The code effectively simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
 ## Performance Metrics for FCFS:
-![FCFS Example](FCFS.PNG "Performance Metrics for FCFS")
+![FCFS Example](images/FCFS.PNG "Performance Metrics for FCFS")
 
 ## Shortest Job First (SJF)
 **File:** `SJF.java`
@@ -177,7 +177,7 @@ The Shortest Job First (SJF) scheduling algorithm selects the process with the s
 The Shortest Job First (SJF) scheduling algorithm implemented in the provided code effectively manages processes by prioritizing shorter jobs for execution. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
 ## Performance Metrics for SJF:
-![SJF Example](SJF.PNG "Performance Metrics for SJF")
+![SJF Example](images/SJF.PNG "Performance Metrics for SJF")
 
 ## Round Robin (RR)
 **File:** `RoundRobin.java`
@@ -222,7 +222,7 @@ The Round Robin scheduling algorithm is a preemptive scheduling algorithm where 
 The Round Robin scheduling algorithm implemented in the provided code effectively manages processes by providing them with equal opportunities to execute within a fixed time quantum. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
 ## Performance Metrics for Round Robin:
-![Round Robin Example](RR.PNG "Performance Metrics for Round Robin")
+![Round Robin Example](images/RR.PNG "Performance Metrics for Round Robin")
 
 ## Priority Scheduling
 **File:** `PriorityScheduler.java`
@@ -267,7 +267,7 @@ The priority scheduling algorithm assigns priorities to each process and execute
 The Priority Scheduling algorithm implemented in the provided code effectively manages processes based on their priorities, ensuring that higher priority processes are executed first. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
 ## Performance Metrics for Priority:
-![Priority Example](priority.PNG "Performance Metrics for Priority")
+![Priority Example](images/priority.PNG "Performance Metrics for Priority")
 
 ## Combining Algorithms: Priority Round Robin
 **File:** `PriorityRoundRobin.java`
@@ -317,7 +317,7 @@ The Priority Round Robin scheduling algorithm is a variation of the Round Robin 
 The Priority Round Robin scheduling algorithm implemented in the provided code effectively manages processes with different priority levels, ensuring that higher priority processes are executed with precedence. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
 ## Performance Metrics for Priority + Round Robin:
-![Priority + Round Robin Example](PR_RR.PNG "Performance Metrics for Priority + Round Robin")
+![Priority + Round Robin Example](images/PR_RR.PNG "Performance Metrics for Priority + Round Robin")
   
 ## Usage Example
 Run the application and follow the prompts to select an algorithm and provide process details. The simulator will execute and provide a detailed display of the scheduling order and metrics.
