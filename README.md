@@ -44,7 +44,8 @@ To use the Process Scheduling Simulator, follow these steps:
    - Generate processes randomly.
 5. Choose a scheduling algorithm to simulate.
 6. View the simulation results and performance metrics.
-7. 
+## Follow the steps to choose how to input processes:
+![Follow the steps to choose how to input processes Example](main.PNG "Follow the steps to choose how to input processes")
 ## Enter processes manually:
 ![Enter processes manually Example](fill_process.PNG "Enter processes manually")
 
@@ -325,8 +326,15 @@ Run the application and follow the prompts to select an algorithm and provide pr
 To compile and run the simulation:
 1. Ensure you have Java installed on your system.
 2. Navigate to the directory containing the source files.
-3. Compile the Java files using the following command.
-4. Run the simulation by executing the `Main` class.
-5. Follow the on-screen options to choose different scheduling algorithms or test scenarios. If you want to test the algorithms with specific process sets, you can use the provided `file.txt` examples or create new ones and upload them to test their behavior.
-## Follow the steps to choose how to input processes:
-![Follow the steps to choose how to input processes Example](main.PNG "Follow the steps to choose how to input processes")
+3. Compile the Java files using the following command:
+   **method1**:
+   Navigate to the src directory and run the following commands:
+   javac main.java
+   java Main
+   **method2**:
+   Navigate to the directory where the Scheduling-algorithms-simulation.jar file is located, then run the following       
+  command:
+  ## java -jar Scheduling-algorithms-simulation.jar
+5. Run the simulation by executing the `Main` class.
+6. Follow the on-screen options to choose different scheduling algorithms or test scenarios. If you want to test the algorithms with specific process sets, you can use the provided `file.txt` examples or create new ones and upload them to test their behavior.
+
