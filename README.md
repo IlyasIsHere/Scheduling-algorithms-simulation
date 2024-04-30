@@ -211,7 +211,7 @@ The Round Robin scheduling algorithm is a preemptive scheduling algorithm where 
 
 The Round Robin scheduling algorithm implemented in the provided code effectively manages processes by providing them with equal opportunities to execute within a fixed time quantum. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
-## Performance Metrics for FCFS:
+## Performance Metrics for Round Robin:
 ![Round Robin Example](RR.PNG "Performance Metrics for Round Robin")
 
 ## Priority Scheduling
