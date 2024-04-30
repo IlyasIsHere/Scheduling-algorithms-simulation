@@ -44,6 +44,15 @@ To use the Process Scheduling Simulator, follow these steps:
    - Generate processes randomly.
 5. Choose a scheduling algorithm to simulate.
 6. View the simulation results and performance metrics.
+7. 
+## Enter processes manually:
+![Enter processes manually Example](fill_process.PNG "Enter processes manually")
+
+##  Read processes from a file:
+![Read processes from a file Example](file.PNG "Read processes from a file")
+
+## Generate processes randomly:
+![Generate processes randomly Example](random.PNG "Generate processes randomly")
 
 ## Supported Algorithms
 
