@@ -56,6 +56,9 @@ public class RoundRobin extends Scheduler {
 
             // Running it for a quantum of time
             chosen.setStatus(Status.RUNNING);
+            if (chosen.getStartingTime() == -1) {
+                chosen.setStartingTime(currentTime);
+            }
 
             Displayer.displayTable(remaining, terminated, currentTime);
 

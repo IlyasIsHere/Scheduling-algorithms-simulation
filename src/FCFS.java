@@ -29,7 +29,9 @@ public class FCFS extends Scheduler {
                 Displayer.updateTable(processes, currentTime);
             }
 
+            // Process starts running
             p.setStatus(Status.RUNNING);
+            p.setStartingTime(currentTime);
 
             // Waiting time of process p is the difference of when it first arrived, and now (because at the current time, process p started actually running)
             p.setWaitingTime(currentTime - p.getArrivalTime());
