@@ -121,6 +121,8 @@ Display the performance metrics such as turnaround time, waiting time, and CPU u
 
 The FCFS scheduling algorithm implemented in the provided code ensures that processes are executed in the order they arrive. The code effectively simulates the scheduling process, updating process states, and displaying relevant information at each step.
 
+## Example from our code:
+![FCFS Example](images/FCFS.PNG "Performance Metrics for FCFS")
 
 ## Shortest Job First (SJF)
 **File:** `SJF.java`
