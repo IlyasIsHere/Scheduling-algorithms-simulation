@@ -15,88 +15,289 @@ The CPU Scheduler Simulator is designed to simulate different CPU scheduling alg
 - **PriorityScheduler.java**: Schedules processes based on a priority system.
 - **PriorityRoundRobin.java**: Combines the Priority and Round Robin scheduling methods for a hybrid approach.
 
-## Algorithm Descriptions
-- **First Come First Serve (FCFS)**: This algorithm schedules processes in the order they arrive in the ready queue without preemption. It is simple and fair, but can lead to long waiting times, particularly for processes arriving just behind a process with a long burst time.
-- **Shortest Job First (SJF)**: This preemptive or non-preemptive approach schedules processes with the shortest expected processing time first, minimizing the average time a process spends waiting in the ready queue.
-- **Round Robin (RR)**: This algorithm assigns a fixed time unit per process and cycles through them. If a process's burst time exceeds the fixed time, it is placed back in the queue to wait for the next turn. This ensures responsiveness and reduces the penalty for longer processes.
-- **Priority Scheduling:** Processes are assigned priorities. A process with higher priority is processed first. If two processes have the same priority, FCFS rules are applied. Priority scheduling can be preemptive or non-preemptive.
+## Main
+**File:** `Main.java`
 
-### About what we did in each algorithm
+# Process Scheduling Simulator
+
+## Overview
+
+The Process Scheduling Simulator is a Java application that simulates various process scheduling algorithms. This README provides an overview of the simulator and explains the functionality implemented in the provided code.
+
+## Features
+
+- Simulates several process scheduling algorithms, including FCFS, SJF, Priority Scheduling, and Round Robin.
+- Allows users to input processes manually, read processes from a file, or generate processes randomly.
+- Provides an option to display all steps during the simulation.
+- Supports interactive scheduling algorithms for interactive systems.
+
+## Usage
+
+To use the Process Scheduling Simulator, follow these steps:
+
+1. Clone or download the repository to your local machine.
+2. Compile the Java files using your preferred IDE or command-line compiler.
+3. Run the Main class (`Main.java`).
+4. Choose how to input processes:
+   - Enter processes manually.
+   - Read processes from a file.
+   - Generate processes randomly.
+5. Choose a scheduling algorithm to simulate.
+6. View the simulation results and performance metrics.
+
+## Supported Algorithms
+
+The simulator supports the following scheduling algorithms:
+
+1. First-Come, First-Served (FCFS): Executes processes in the order they arrive.
+2. Shortest Job First (SJF): Executes the process with the shortest burst time first.
+3. Priority Scheduling: Executes processes based on their priority.
+4. Round Robin (RR): Executes processes in a circular manner with a fixed time quantum.
+5. Priority Scheduling + Round Robin: Executes processes based on priority, with a Round Robin approach for processes with the same priority.
+
+## Implementation Details
+
+- The `Main` class serves as the entry point for the application. It provides a user interface for choosing scheduling algorithms and input methods.
+- Process scheduling algorithms are implemented in separate classes (`FCFS`, `SJF`, `PriorityScheduler`, `RoundRobin`, `PriorityRoundRobin`) by extending the `Scheduler` class.
+- Process objects represent individual processes with attributes such as ID, arrival time, burst time, and priority.
+
+## Dependencies
+
+The simulator uses the following Java libraries:
+
+- `java.swing.*`: For GUI components and file selection.
+- `java.io.File`, `java.util.Scanner`: For file input and command-line interaction.
+- `java.nio.file.Files`, `java.nio.file.Paths`: For file reading and writing.
+- `java.util.ArrayList`, `java.util.List`: For storing process data.
+
+## Conclusion
+
+The Process Scheduling Simulator provides a flexible and interactive environment for exploring various process scheduling algorithms. By simulating different scenarios and analyzing performance metrics, users can gain insights into the behavior of scheduling algorithms in different contexts.
+
+## Algorithm Descriptions
+
   ## First Come First Serve (FCFS)
 **File:** `FCFS.java`
 
 **Description:**  
-FCFS is the simplest type of CPU scheduling algorithm that operates on a first-come, first-served basis. The algorithm queues processes in the order they arrive in the ready queue and runs them until completion without preemption.
 
-**Implementation Details:**
-- **Process Queueing:** Processes are added to a queue as they arrive.
-- **Execution:** The scheduler picks the first process from the queue and executes it. The process runs until it finishes, and then the scheduler selects the next process.
-- **No Preemption:** Once a process starts running, it continues until it finishes.
+The First-Come-First-Served (FCFS) scheduling algorithm is a simple scheduling strategy used by operating systems to manage processes. In this algorithm, processes are executed in the order they arrive, without any preemption. This README provides an overview of the FCFS algorithm and explains the functionality implemented in the provided code.
 
-**Step-by-Step Code Explanation:**
-1. Initialize a queue to hold the processes.
-2. Sort the processes by their arrival time to ensure they are handled in the correct order.
-3. Continuously fetch and execute the first process in the queue until all processes are completed.
+## Algorithm Description
+
+### Arrival Time Sorting
+
+Processes are sorted based on their arrival times in ascending order. This ensures that the processes are executed in the order they arrive.
+
+### Simulation Loop
+
+- Iterate through the sorted list of processes.
+- If the current time is less than the arrival time of a process, update the current time to the arrival time of that process and mark it as ready.
+- Set the status of the current process to running and calculate its waiting time.
+- Update the arrival times of other processes that arrive while the current process is running.
+- Update the current time and process status when the current process terminates.
+
+### CPU Idle Time Handling
+
+If there's idle time before the arrival of the next process, add it to the total time.
+
+### Display Performance Metrics
+
+Display the performance metrics such as turnaround time, waiting time, and CPU usage.
+
+## Code Explanation
+
+- The `simulate` method takes an ArrayList of Process objects as input.
+- Processes are sorted based on their arrival times using the Comparator class.
+- The simulation loop iterates through each process:
+  - If the current time is before the arrival time of the process, the current time is updated, and the process is marked as ready.
+  - The process is set to running, and its waiting time is calculated.
+  - Arrival times of other processes are updated if they arrive while the current process is running.
+  - When a process terminates, its status is updated, and relevant metrics are calculated.
+- After the simulation loop, any remaining idle time is handled.
+- Performance metrics such as CPU usage are calculated and displayed.
+
+## Conclusion
+
+The FCFS scheduling algorithm implemented in the provided code ensures that processes are executed in the order they arrive. The code effectively simulates the scheduling process, updating process states, and displaying relevant information at each step.
+
 
 ## Shortest Job First (SJF)
 **File:** `SJF.java`
 
 **Description:**  
-SJF can be either preemptive or non-preemptive. It prioritizes processes with the shortest execution time first, which helps to minimize the average waiting time for all processes.
 
-**Implementation Details:**
-- **Process Selection:** Selects the process with the shortest burst time from the ready queue.
-- **Preemptive/Non-Preemptive:** In preemptive mode, the current running process can be interrupted if a new process with a shorter burst time arrives.
+The Shortest Job First (SJF) scheduling algorithm selects the process with the smallest burst time for execution, ensuring that shorter jobs are completed first. This README provides an overview of the SJF algorithm and explains the functionality implemented in the provided code.
 
-**Step-by-Step Code Explanation:**
-1. Monitor arriving processes and maintain a priority queue based on burst time.
-2. For non-preemptive, execute the shortest job completely before moving on to the next.
-3. For preemptive, compare the burst time of the currently running process with new arrivals and preempt if necessary.
+## Algorithm Description
+
+### Initialization
+
+- Initialize lists to track remaining, ready, and terminated processes.
+
+### Simulation Loop
+
+- Run the simulation loop until all processes have terminated:
+  - Add newly arrived processes to the ready queue.
+  - If no process has arrived yet, move the current time to the minimum arrival time of the remaining processes.
+  - Choose the process to run from the ready queue based on the shortest job (smallest burst time).
+  - Remove the chosen process from the ready queue and run it.
+  - Check if any process arrives while the current one is running.
+  - Update process status, remaining burst time, and current time accordingly.
+  - If a process terminates, update its status, termination time, and move it to the terminated list.
+  - Display the simulation table at each step.
+
+### Performance Metrics
+
+- Finally, display performance metrics such as turnaround time, waiting time, and CPU usage.
+
+## Code Explanation
+
+- The `simulate` method takes an ArrayList of Process objects as input.
+- Processes are added to the ready queue based on their arrival times and sorted by burst time.
+- The simulation loop iterates through each process:
+  - Processes are chosen for execution based on the shortest burst time, with ties broken by arrival time (First Come, First Served).
+  - Process execution continues until termination, with arrival times of other processes checked during execution.
+- Performance metrics are calculated and displayed at the end of the simulation.
+
+## Conclusion
+
+The Shortest Job First (SJF) scheduling algorithm implemented in the provided code effectively manages processes by prioritizing shorter jobs for execution. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
+
 
 ## Round Robin (RR)
 **File:** `RoundRobin.java`
 
 **Description:**  
-Round Robin is a preemptive scheduling algorithm that assigns a fixed time slice (quantum) to each process in a cyclic order. It is designed to provide fairness among processes.
 
-**Implementation Details:**
-- **Time Quantum:** Each process gets an equal time slice, after which it is placed back in the queue if it hasn’t finished execution.
-- **Cyclic Ordering:** Processes are executed in a cyclic manner, ensuring all processes receive CPU time in rounds.
+The Round Robin scheduling algorithm is a preemptive scheduling algorithm where each process is assigned a fixed time unit, called a time quantum, to execute. If a process does not complete within the time quantum, it is preempted and placed back in the ready queue to wait for its turn again. This README provides an overview of the Round Robin algorithm and explains the functionality implemented in the provided code.
 
-**Step-by-Step Code Explanation:**
-1. Use a queue to manage the processes.
-2. Execute each process for a time equal to the quantum.
-3. If the process doesn’t finish, requeue it at the end.
-4. Continue this cycle until all processes are finished.
+## Algorithm Description
+
+### Initialization
+
+- Initialize the time quantum for the Round Robin algorithm.
+
+### Simulation Loop
+
+- Run the simulation loop until all processes have terminated:
+  - Add newly arrived processes to the ready queue.
+  - If no process has arrived yet, move the current time to the minimum arrival time of the remaining processes.
+  - Choose the process to run from the front of the ready queue.
+  - Run the chosen process for a quantum of time.
+  - Check if any process arrives while the current one is running.
+  - Update process status, remaining burst time, and current time accordingly.
+  - If a process terminates, update its status, termination time, waiting time, and move it to the terminated list.
+  - Display the simulation table at each step.
+
+### Performance Metrics
+
+- Finally, display performance metrics such as turnaround time, waiting time, and CPU usage.
+
+## Code Explanation
+
+- The `simulate` method takes an ArrayList of Process objects as input.
+- Processes are added to the ready queue based on their arrival times.
+- The simulation loop iterates through each process:
+  - Processes are chosen for execution from the front of the ready queue.
+  - Process execution continues until termination, with arrival times of other processes checked during execution.
+- Performance metrics are calculated and displayed at the end of the simulation.
+
+## Conclusion
+
+The Round Robin scheduling algorithm implemented in the provided code effectively manages processes by providing them with equal opportunities to execute within a fixed time quantum. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
+
 
 ## Priority Scheduling
 **File:** `PriorityScheduler.java`
 
 **Description:**  
-Processes are scheduled according to their priority. Higher priority processes are executed first. If priorities are equal, FCFS principle is applied.
 
-**Implementation Details:**
-- **Priority Levels:** Each process is assigned a priority level.
-- **Process Selection:** The scheduler picks the process with the highest priority from the queue.
+The priority scheduling algorithm assigns priorities to each process and executes the process with the highest priority first. This provides an overview of the Priority Scheduling algorithm and explains the functionality implemented in the provided code.
 
-**Step-by-Step Code Explanation:**
-1. Maintain a priority queue where processes are automatically sorted by priority.
-2. Execute the highest priority process available in the queue.
-3. If two processes have the same priority, apply FCFS to decide which runs first.
+## Algorithm Description
+
+### Initialization
+
+- Initialize lists to track remaining, ready, and terminated processes.
+
+### Simulation Loop
+
+- Run the simulation loop until all processes have terminated:
+  - Add newly arrived processes to the ready array.
+  - If no process has arrived yet, move the current time to the minimum arrival time of the remaining processes.
+  - Choose the process to run based on priority (lower priority numbers indicate higher priority).
+  - Remove the chosen process from the ready queue and run it.
+  - Check if any process arrives while the current one is running.
+  - Update process status, remaining burst time, and current time accordingly.
+  - If a process terminates, update its status, termination time, and move it to the terminated list.
+  - Display the simulation table at each step.
+
+### Performance Metrics
+
+- Finally, display performance metrics such as turnaround time, waiting time, and CPU usage.
+
+## Code Explanation
+
+- The `simulate` method takes an ArrayList of Process objects as input.
+- Processes are added to the ready array based on their arrival times and sorted by priority.
+- The simulation loop iterates through each process:
+  - Processes are chosen for execution based on priority, with ties broken by arrival time (First Come, First Served).
+  - Process execution continues until termination, with arrival times of other processes checked during execution.
+- Performance metrics are calculated and displayed at the end of the simulation.
+
+## Conclusion
+
+The Priority Scheduling algorithm implemented in the provided code effectively manages processes based on their priorities, ensuring that higher priority processes are executed first. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
+
 
 ## Combining Algorithms: Priority Round Robin
 **File:** `PriorityRoundRobin.java`
 
 **Description:**  
-This hybrid approach combines priority scheduling with round robin. Processes are first grouped based on priority, and then each group is scheduled using the round robin method.
 
-**Implementation Details:**
-- **Grouping by Priority:** Processes are divided into groups based on their priority.
-- **Round Robin Execution:** Within each group, processes are scheduled in a round-robin fashion using a fixed quantum.
+The Priority Round Robin scheduling algorithm is a variation of the Round Robin algorithm that introduces priority levels for processes. Processes with higher priorities are given precedence over processes with lower priorities. This README provides an overview of the Priority Round Robin algorithm and explains the functionality implemented in the provided code.
 
-**Step-by-Step Code Explanation:**
-1. Categorize processes into priority levels.
-2. Apply round robin scheduling within each priority level, ensuring that processes in higher priority levels are selected before those in lower levels.
+## Algorithm Description
+
+### Initialization
+
+- Initialize the quantum (time slice) for each priority level.
+- Create priority queues to hold processes for each priority level.
+
+### Simulation Loop
+
+- Initialize lists to track remaining and terminated processes.
+- Run the simulation loop until all processes have terminated:
+  - Add newly arrived processes to their respective priority queues.
+  - If no process has arrived yet, move the current time to the minimum arrival time of the remaining processes.
+  - Find the highest priority non-empty queue.
+  - Choose the process to run from the highest priority queue.
+  - Run the chosen process for a quantum of time.
+  - Check if any process arrives while the current one is running.
+  - Update process status, remaining burst time, and current time accordingly.
+  - If a process terminates, update its status, termination time, waiting time, and move it to the terminated list.
+  - If a process does not terminate, add it back to the rear of its priority queue.
+  - Display the simulation table at each step.
+
+### Performance Metrics
+
+- Finally, display performance metrics such as turnaround time, waiting time, and CPU usage.
+
+## Code Explanation
+
+- The `simulate` method takes an ArrayList of Process objects as input.
+- Priority queues are used to manage processes based on their priority levels.
+- The simulation loop iterates through each process:
+  - Processes are added to their respective priority queues based on their arrival times.
+  - The process to run is chosen from the highest priority non-empty queue.
+  - Processes are run for a quantum of time, and arrival times of other processes are checked during execution.
+  - Performance metrics are calculated and displayed at the end of the simulation.
+
+## Conclusion
+
+The Priority Round Robin scheduling algorithm implemented in the provided code effectively manages processes with different priority levels, ensuring that higher priority processes are executed with precedence. The code simulates the scheduling process, updating process states, and displaying relevant information at each step.
+
 
   
 ## Usage Example
