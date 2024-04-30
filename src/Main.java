@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.File;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -8,9 +9,23 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.List;
 
+
+
 public class Main {
 
+    // For printing colored text in the terminal
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
     private static JFileChooser fileChooser = new JFileChooser();
+    public static boolean showAllSteps;
 
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
@@ -21,11 +36,11 @@ public class Main {
                 processes = getProcesses(scanner);
 
             } catch (InputMismatchException e) {
-                System.err.println("Invalid choice. Please enter a number from 1 to 4.");
+                System.out.println(ANSI_RED + "Invalid choice. Please enter a number from 1 to 4." + ANSI_RESET);
                 scanner.nextLine();
                 continue;
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
                 continue;
             }
 
@@ -48,47 +63,52 @@ public class Main {
 
                 Displayer.displayTable(processes, -1);
 
-                System.out.println("\nWhich scheduling algorithm do you want to choose?");
-                System.out.println("1. First-Come, First-Served (FCFS) (for batch systems)");
-                System.out.println("2. Shortest Job First (SJF) (for batch systems)");
-                System.out.println("3. Priority Scheduling (for batch systems)");
-                System.out.println("4. Round Robin (RR) (for interactive systems)");
-                System.out.println("5. Priority scheduling + RR (for interactive systems)");
-                System.out.println("6. Exit");
+                System.out.println(ANSI_CYAN + "\nWhich scheduling algorithm do you want to choose?" + ANSI_RESET);
+                System.out.println(ANSI_BLUE + "1." + ANSI_RESET + " First-Come, First-Served (FCFS) (for batch systems)");
+                System.out.println(ANSI_BLUE + "2." + ANSI_RESET + " Shortest Job First (SJF) (for batch systems)");
+                System.out.println(ANSI_BLUE + "3." + ANSI_RESET + " Priority Scheduling (for batch systems)");
+                System.out.println(ANSI_BLUE + "4." + ANSI_RESET + " Round Robin (RR) (for interactive systems)");
+                System.out.println(ANSI_BLUE + "5." + ANSI_RESET + " Priority scheduling + RR (for interactive systems)");
+                System.out.println(ANSI_BLUE + "6." + ANSI_RESET + " Exit");
 
                 int choice = 0;
                 try {
                     choice = scanner.nextInt();
                 } catch (InputMismatchException e) {
-                    System.err.println("Invalid choice. Enter a number from 1 to 6.");
+                    System.out.println(ANSI_RED + "Invalid choice. Enter a number from 1 to 6." + ANSI_RESET);
                     scanner.nextLine();
                     continue loopChooseAlgorithm;
                 }
                 int quantum = 0;
                 switch (choice) {
                     case 1:
+                        showAllStepsPrompt();
                         FCFS fcfs = new FCFS();
                         fcfs.simulate(processes);
                         break;
                     case 2:
+                        showAllStepsPrompt();
                         SJF sjf = new SJF();
                         sjf.simulate(processes);
                         break;
                     case 3:
+                        showAllStepsPrompt();
                         PriorityScheduler priorityScheduler = new PriorityScheduler();
                         priorityScheduler.simulate(processes);
                         break;
                     case 4:
-                        System.out.println("\nEnter the quantum value: ");
+                        System.out.println(ANSI_CYAN + "\nEnter the quantum value: " + ANSI_RESET);
                         quantum = scanner.nextInt();  // Read the quantum from the user
 
+                        showAllStepsPrompt();
                         RoundRobin rr = new RoundRobin(quantum);
                         rr.simulate(processes);
                         break;
                     case 5:
-                        System.out.println("\nEnter the quantum value: ");
+                        System.out.println(ANSI_CYAN + "\nEnter the quantum value: " + ANSI_RESET);
                         quantum = scanner.nextInt();
 
+                        showAllStepsPrompt();
                         PriorityRoundRobin prr = new PriorityRoundRobin(quantum, highestPriority + 1);
                         prr.simulate(processes);
                         break;
@@ -96,12 +116,12 @@ public class Main {
                         continueLoop = false;
                         break;
                     default:
-                        System.err.println("Invalid choice!");
+                        System.out.println(ANSI_RED + "Invalid choice!" + ANSI_RESET);
                         continue loopChooseAlgorithm;
                 }
 
                 if (continueLoop) {
-                    System.out.println("\nDo you want to choose another scheduling algorithm? (yes/no)");
+                    System.out.println(ANSI_CYAN + "\nDo you want to choose another scheduling algorithm? (yes/no)" + ANSI_RESET);
                     String answer = scanner.next();
                     if (!answer.equalsIgnoreCase("yes")) {
                         continueLoop = false;
@@ -120,11 +140,11 @@ public class Main {
      */
     public static ArrayList<Process> getProcesses(Scanner scanner) throws Exception {
 
-        System.out.println("\nChoose how to input processes:");
-        System.out.println("1. Enter processes manually");
-        System.out.println("2. Read processes from a file");
-        System.out.println("3. Generate processes randomly");
-        System.out.println("4. Exit");
+        System.out.println(ANSI_CYAN + "\nChoose how to input processes:" + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + "1." + ANSI_RESET + " Enter processes manually");
+        System.out.println(ANSI_PURPLE + "2." + ANSI_RESET + " Read processes from a file");
+        System.out.println(ANSI_PURPLE + "3." + ANSI_RESET + " Generate processes randomly");
+        System.out.println(ANSI_PURPLE + "4." + ANSI_RESET + " Exit");
 
         int choice = scanner.nextInt();
         switch (choice) {
@@ -151,7 +171,7 @@ public class Main {
      * @return An ArrayList of processes that were read from the file
      */
     public static ArrayList<Process> getProcessesFromFile() throws Exception {
-        System.out.println("Please select your file that contains the processes. Each line should represent a process, and each process should be comma-separated values as follows: \nid,arrivalTime,burstTime,priority");
+        System.out.println(ANSI_YELLOW + "Please select your file that contains the processes. Each line should represent a process, and each process should be comma-separated values as follows: \n" + ANSI_GREEN + "id,arrivalTime,burstTime,priority" + ANSI_RESET);
         ArrayList<Process> processes = new ArrayList<>();
 
         int returnValue = fileChooser.showOpenDialog(null);
@@ -188,8 +208,8 @@ public class Main {
         ArrayList<Process> processes = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter processes in the format: id, arrivalTime, burstTime, priority");
-        System.out.println("Enter 'done' to finish.");
+        System.out.println(ANSI_BLUE + "Enter processes in the format: id, arrivalTime, burstTime, priority" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "Enter 'done' to finish." + ANSI_RESET);
 
         String input;
         while (!(input = scanner.nextLine()).equalsIgnoreCase("done")) {
@@ -201,13 +221,23 @@ public class Main {
                 int priority = Integer.parseInt(parts[3].trim());
                 processes.add(new Process(id, arrivalTime, burstTime, priority));
             } catch (IllegalArgumentException e) {
-                System.err.println(e.getMessage());
+                System.out.println(ANSI_RED + "Invalid input: " + e.getMessage() + ANSI_RESET);
             } catch (Exception e) {
-                System.err.println("Invalid input format. Please try again.");
+                System.out.println(ANSI_RED + "Invalid input format. Please try again." + ANSI_RESET);
             }
         }
 
         return processes;
+    }
+
+    /**
+     * Prompts the user whether he wants to be shown all steps, or get directly the final results
+     */
+    public static void showAllStepsPrompt() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(ANSI_BLUE + "Do you want to see all steps? (yes/no)" + ANSI_RESET);
+        String displayChoice = scanner.nextLine().trim().toLowerCase();
+        Main.showAllSteps = displayChoice.equals("yes");
     }
 
 }
