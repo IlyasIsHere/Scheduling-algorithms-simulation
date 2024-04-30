@@ -1,7 +1,7 @@
-# Scheduling Algorithms Simulation
+# CPU Scheduler Simulator
 
 ## Description
-This project simulates various process scheduling algorithms to study their behaviors and performance characteristics. The program includes a variety of schedulers, each implemented in a separate Java class, along with utility classes for process generation and display.
+The CPU Scheduler Simulator is designed to simulate different CPU scheduling algorithms, providing insights into how various algorithms prioritize and manage processes. This tool is valuable for students and educators in computer science, particularly in operating systems courses.
 
 ## Components
 - **Main.java**: Entry point that orchestrates the simulation, utilizing various schedulers.
@@ -14,6 +14,15 @@ This project simulates various process scheduling algorithms to study their beha
 - **RoundRobin.java**: Implements the Round Robin scheduling algorithm.
 - **PriorityScheduler.java**: Schedules processes based on a priority system.
 - **PriorityRoundRobin.java**: Combines the Priority and Round Robin scheduling methods for a hybrid approach.
+
+## Algorithm Descriptions
+- **First Come First Serve (FCFS)**: This algorithm schedules processes in the order they arrive in the ready queue without preemption. It is simple and fair, but can lead to long waiting times, particularly for processes arriving just behind a process with a long burst time.
+- **Shortest Job First (SJF)**: This preemptive or non-preemptive approach schedules processes with the shortest expected processing time first, minimizing the average time a process spends waiting in the ready queue.
+- **Round Robin (RR)**: This algorithm assigns a fixed time unit per process and cycles through them. If a process's burst time exceeds the fixed time, it is placed back in the queue to wait for the next turn. This ensures responsiveness and reduces the penalty for longer processes.
+- **Priority Scheduling:** Processes are assigned priorities. A process with higher priority is processed first. If two processes have the same priority, FCFS rules are applied. Priority scheduling can be preemptive or non-preemptive.
+  
+## Usage Example
+Run the application and follow the prompts to select an algorithm and provide process details. The simulator will execute and provide a detailed display of the scheduling order and metrics.
 
 ## Compilation and Execution Instructions
 To compile and run the simulation:
