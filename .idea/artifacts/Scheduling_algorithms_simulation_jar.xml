@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Scheduling-algorithms-simulation:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Scheduling_algorithms_simulation_jar</output-path>
+    <root id="archive" name="Scheduling-algorithms-simulation.jar">
+      <element id="module-output" name="Scheduling-algorithms-simulation" />
+    </root>
+  </artifact>
+</component>

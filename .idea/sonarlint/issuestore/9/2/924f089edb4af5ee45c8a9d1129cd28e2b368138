@@ -1,0 +1,27 @@
+
+‡	java:S112 "FDefine and throw a dedicated exception instead of using a generic one.(½´¾´úÿÿÿÿJ$10eb16ab-31d1-47b9-8cff-8b27b2220c72
+‡	java:S112Ä"FDefine and throw a dedicated exception instead of using a generic one.(…Ç•ƒşÿÿÿÿJ$6447830c-7b6e-4872-93f1-abdb394b5275
+‡	java:S112­"FDefine and throw a dedicated exception instead of using a generic one.(§øÇÀşÿÿÿÿJ$193c89ac-16fa-4230-be45-3e34a8afa519
+­
+java:S1319"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¶÷æœJ$427d087c-e37e-489b-9b8e-d761478cf5c4
+²
+java:S1319­"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(§øÇÀşÿÿÿÿJ$9b195f8e-dc1b-411a-8306-35aa3c367558
+²
+java:S1319Ï"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ºíìøşÿÿÿÿJ$c2a96f67-242e-4afa-97b7-59a87d18d47b
+”
+java:S1104"XMake showAllSteps a static final constant or non-public and provide accessors if needed.(šÅä¼J$d4bd95e1-2b11-4fda-9cac-e4e226d19b78
+n
+java:S1444"2Make this "public static showAllSteps" field final(šÅä¼J$16032c7e-7e90-43fd-a2b7-a3e8d339427d
+
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(º™Ú7J$cf8904ec-c93e-4496-bbf0-f1ab7995b29f
+v
+java:S11199";Refactor the code to remove this label and the need for it.(–¨ŠwJ$1058f533-2255-4005-a063-438fa539dd6f
+t
+java:S1135†"2Complete the task associated to this TODO comment.(¢ŞîĞûÿÿÿÿJ$afe39e2f-f9e3-44af-8ec3-661a38e95656
+	java:S128"LEnd this switch case with an unconditional break, return or throw statement.(µ»ïşıÿÿÿÿJ$a06ead67-8725-4f30-a3cc-11da0b5ed283
+j
+java:S1128"/Remove this unused import 'java.sql.ResultSet'.(ˆóÚwJ$e8c631bb-47af-4c5f-ae8f-1c2f02a0e676
+l
+java:S1128"0Remove this unused import 'java.nio.file.Paths'.(áè°¯J$74c9318f-9ea7-4577-8904-a313fe326b1f
+q
+java:S1128	"0Remove this unused import 'java.io.IOException'.(ªº»ÚıÿÿÿÿJ$e584f97e-53c3-4b7b-8b3c-8bfbc1ab9667

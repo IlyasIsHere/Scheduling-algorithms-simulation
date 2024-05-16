@@ -1,0 +1,21 @@
+
+¯
+java:S1192"“Define a constant instead of duplicating this literal "+----+----------+--------------+------------+--------------+---------------------+" 3 times.(Ù›İ¿ùÿÿÿÿ
+Ã
+java:S11924"§Define a constant instead of duplicating this literal "+----+--------------+------------+--------------+-----------------+---------------+------------------+" 3 times.(¿Ããàüÿÿÿÿ
+
+java:S1319E"iThe type of "processes" should be an interface such as "List" rather than the implementation "ArrayList".(´Œ¨Ü
+„
+java:S1319M"iThe type of "processes" should be an interface such as "List" rather than the implementation "ArrayList".(ÑŞ˜ëúÿÿÿÿ
+„
+java:S1319Z"iThe type of "processes" should be an interface such as "List" rather than the implementation "ArrayList".(Ïó‘Øÿÿÿÿÿ
+k	java:S117["QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û´òšùÿÿÿÿ
+k	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú²Ê¬ıÿÿÿÿ
+f	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÔÇØĞ
+k	java:S117i"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î¤«ûÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.( ‹„úÿÿÿÿ
+f
+java:S3457"Q%n should be used in place of \n to produce the platform-specific line separator.(í÷¬5
+g
+java:S34578"Q%n should be used in place of \n to produce the platform-specific line separator.(ÛÍúš

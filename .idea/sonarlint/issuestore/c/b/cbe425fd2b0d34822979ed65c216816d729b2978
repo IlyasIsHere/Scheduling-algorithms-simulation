@@ -1,0 +1,9 @@
+
+E
+java:S1066["/Merge this if statement with the enclosing one.(—©„Þ
+{
+java:S1319U"eThe type of "ready" should be an interface such as "List" rather than the implementation "ArrayList".(ì£Ã·
+P
+java:S1854"5Remove this useless assignment to local variable "n".(´°‚Ãúÿÿÿÿ
+A
+java:S1481"&Remove this unused "n" local variable.(´°‚Ãúÿÿÿÿ
